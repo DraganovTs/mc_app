@@ -8,8 +8,8 @@
 		<module>kafka</module>
 		<module>kafka/kafka-model</module>
 		<module>kafka/kafka-admin</module>
-		<module>kafka/kafka-producer</module>
 		<module>common-config</module>
+		<module>kafka/kafka-producers</module>
 	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
