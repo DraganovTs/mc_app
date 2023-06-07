@@ -24,22 +24,31 @@ import java.util.stream.Collectors;
 
 @Component
 public class KafkaAdminClient {
-
     private static final Logger LOG = LoggerFactory.getLogger(KafkaAdminClient.class);
 
     private final KafkaConfigData kafkaConfigData;
+
     private final RetryConfigData retryConfigData;
+
     private final AdminClient adminClient;
+
     private final RetryTemplate retryTemplate;
+
     private final WebClient webClient;
 
-    public KafkaAdminClient(KafkaConfigData kafkaConfigData, RetryConfigData retryConfigData, AdminClient adminClient, RetryTemplate retryTemplate, WebClient webClient) {
-        this.kafkaConfigData = kafkaConfigData;
+
+    public KafkaAdminClient(KafkaConfigData config,
+                            RetryConfigData retryConfigData,
+                            AdminClient client,
+                            RetryTemplate template,
+                            WebClient webClient) {
+        this.kafkaConfigData = config;
         this.retryConfigData = retryConfigData;
-        this.adminClient = adminClient;
-        this.retryTemplate = retryTemplate;
+        this.adminClient = client;
+        this.retryTemplate = template;
         this.webClient = webClient;
     }
+
     public void createTopics() {
         CreateTopicsResult createTopicsResult;
         try {
@@ -81,7 +90,7 @@ public class KafkaAdminClient {
 
     private HttpStatus getSchemaRegistryStatus() {
         try {
-            return (HttpStatus) webClient
+            return webClient
                     .method(HttpMethod.GET)
                     .uri(kafkaConfigData.getSchemaRegistryUrl())
                     .exchange()
@@ -145,4 +154,5 @@ public class KafkaAdminClient {
         }
         return topics;
     }
+
 }
